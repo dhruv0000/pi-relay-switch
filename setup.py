@@ -17,7 +17,7 @@ def fan(value=0):
   return "<p>Error mate!</p>"
 
 # Change the output of a specific `pin`.
-def change_gpio_out(pin:int,value: bool):
+def change_gpio_out(pin:int,value: int):
   try:
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(16, GPIO.OUT)

@@ -1,5 +1,6 @@
 # DIY Smart Home
-~This readme was made for my future reference. Dont expect it to be perfect.~
+This readme was made for my future reference. Dont expect it to be perfect.
+
 ## Requirements
 - Pi (with wifi access)
 - Relay Module

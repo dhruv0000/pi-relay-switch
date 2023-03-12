@@ -4,31 +4,27 @@ import os
 
 app = Flask(__name__)
 
+fan_pin = 16
+
 @app.route('/')
 def index():
   return render_template('index.html')
 
-@app.route('/fan/1')
-def fan_on():
-  try:
-    print("Fan On")
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(16, GPIO.OUT)
-    GPIO.output(16, False)
+@app.route('/fan/<int:value>')
+def fan(value=0):
+  if(change_gpio_out(fan_pin,value)):
     return redirect(url_for('index'))
-  except:
-    return "<p>Error Bro</p>"
+  return "<p>Error mate!</p>"
 
-@app.route('/fan/0')
-def fan_off():
+# Change the output of a specific `pin`.
+def change_gpio_out(pin:int,value: bool):
   try:
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(16, GPIO.OUT)
-    GPIO.output(16, True)
-    return redirect(url_for('index'))
+    GPIO.output(pin, value)
+    return True
   except:
-    return "<p>Error Bro</p>"
- 
+    return False
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.

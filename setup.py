@@ -20,7 +20,7 @@ def fan(value=0):
 def change_gpio_out(pin:int,value: int):
   try:
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(16, GPIO.OUT)
+    GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, value)
     return True
   except:

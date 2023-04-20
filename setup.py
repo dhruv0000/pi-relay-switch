@@ -5,6 +5,7 @@ import os
 app = Flask(__name__)
 
 fan_pin = 16
+light_pin = 15
 
 @app.route('/')
 def index():
@@ -16,11 +17,30 @@ def fan(value=0):
     return redirect(url_for('index'))
   return "<p>Error mate!</p>"
 
+@app.route('/light/<int:value>')
+def ligth(value=0):
+  if(change_gpio_out(light_pin,value)):
+    return redirect(url_for('index'))
+  return "<p>Error mate!</p>"
+
+@app.route('/light/switch')
+def ligth_switch():
+  if(change_gpio_out(light_pin,None)):
+    return redirect(url_for('index'))
+  return "<p>Error mate!</p>"
+
 # Change the output of a specific `pin`.
 def change_gpio_out(pin:int,value: int):
+  GPIO.setmode(GPIO.BOARD)
+  GPIO.setup(pin, GPIO.OUT)
+
+  if value==None:
+    if GPIO.input(pin)==GPIO.LOW:
+      value=1
+    else:
+      value=0
+  
   try:
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, value)
     return True
   except:
